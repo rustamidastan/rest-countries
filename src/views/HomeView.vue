@@ -1,18 +1,190 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <form class="my-form">
+      <div class="input-wrapper">
+        <fa icon="magnifying-glass" />
+        <input type="text" placeholder="search a country.." />
+      </div>
+      <div class="select">
+        <select v-model="region">
+          <option value="All">All</option>
+          <option value="Africa">Africa</option>
+          <option value="Americas">Americas</option>
+          <option value="Asia">Asia</option>
+          <option value="Europe">Europe</option>
+          <option value="Oceania">Oceania</option>
+          <span class="focus"></span>
+        </select>
+      </div>
+    </form>
+  </div>
+  <div class="home" v-if="filtredCountries">
+    <div v-for="(country, index) in filtredCountries" :key="index">
+      <router-link
+        :to="{ name: 'CountryInfo', params: { alphaCode: country.alpha3Code } }"
+      >
+        <CountryComp :country="country" />
+      </router-link>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import CountryComp from "@/components/CountryComp.vue";
+import CountryService from "@/services/CountryService";
 
 export default {
-  name: 'HomeView',
+  name: "HomeView",
   components: {
-    HelloWorld
-  }
-}
+    CountryComp,
+  },
+  data() {
+    return {
+      countries: null,
+      region: "All",
+    };
+  },
+
+  mounted() {
+    CountryService.getEvents()
+      .then((response) => {
+        this.countries = response.data;
+      })
+
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
+  computed: {
+    filtredCountries() {
+      if (this.region === "All") {
+        return this.countries;
+      } else {
+        let p = this.countries.filter((country) => {
+          if (country.region === this.region) {
+            return country;
+          }
+        });
+
+        return p;
+      }
+    },
+  },
+};
 </script>
+
+<style>
+.home {
+  padding-top: 50px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  max-width: 1280px;
+  margin: 0 auto;
+  grid-row-gap: 75px;
+  grid-column-gap: 75px;
+}
+
+a {
+  text-decoration: none;
+  color: #111517;
+}
+
+.my-form {
+  padding-top: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input-wrapper {
+  width: 480px;
+  height: 56px;
+  padding: 19px 32px;
+  background: #ffffff;
+  box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.0532439);
+  border-radius: 5px;
+}
+
+.input-wrapper input {
+  margin-left: 24px;
+  outline: none;
+  border: none;
+  font-size: 14px;
+  line-height: 20px;
+  width: 350px;
+}
+
+.input-wrapper input[placeholder] {
+  color: #848484;
+}
+
+select {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  padding: 0 1em 0 0;
+  margin: 0;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+  outline: none;
+  padding: 18px 24px;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+.select {
+  width: 200px;
+  height: 56px;
+  position: relative;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  line-height: 20px;
+  background: #fff;
+  box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.0532439);
+  display: grid;
+  grid-template-areas: "select";
+  align-items: center;
+}
+
+.select::after {
+  content: "";
+  width: 0.8em;
+  height: 0.5em;
+  margin-right: 14px;
+  background-color: #111517;
+  clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+  justify-self: end;
+}
+
+select,
+.select:after {
+  grid-area: select;
+}
+
+select:focus + .focus {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  border: 2px solid var(--select-focus);
+  border-radius: inherit;
+}
+
+option {
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 20px;
+  color: #111517;
+  margin-bottom: 8px !important;
+}
+</style>
