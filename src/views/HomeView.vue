@@ -67,7 +67,6 @@ export default {
             return country;
           }
         });
-
         return p;
       }
     },
