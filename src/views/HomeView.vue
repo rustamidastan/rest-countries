@@ -51,7 +51,6 @@ export default {
       .then((response) => {
         this.countries = response.data;
       })
-
       .catch((error) => {
         console.log(error);
       });
