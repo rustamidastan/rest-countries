@@ -50,10 +50,6 @@ export default {
     this.$store.dispatch("setCountries");
   },
 
-  methods: {
-    sortCountry(countries) {},
-  },
-
   computed: {
     countries() {
       return this.$store.state.countries;
