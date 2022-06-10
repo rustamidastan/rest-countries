@@ -3,7 +3,7 @@
     <form class="my-form">
       <div class="input-wrapper">
         <fa icon="magnifying-glass" />
-        <input type="text" placeholder="search a country.." />
+        <input type="text" placeholder="search a country.." v-model="search" />
       </div>
       <div class="select">
         <select v-model="region">
@@ -19,7 +19,7 @@
     </form>
   </div>
   <div class="home" v-if="filtredCountries">
-    <div v-for="(country, index) in filtredCountries" :key="index">
+    <div v-for="(country, index) in searchedCountries" :key="index">
       <router-link
         :to="{ name: 'CountryInfo', params: { alphaCode: country.alpha3Code } }"
       >
@@ -32,41 +32,51 @@
 <script>
 // @ is an alias to /src
 import CountryComp from "@/components/CountryComp.vue";
-import CountryService from "@/services/CountryService";
 
 export default {
   name: "HomeView",
   components: {
     CountryComp,
   },
+
   data() {
     return {
-      countries: null,
       region: "All",
+      search: "",
     };
   },
 
   mounted() {
-    CountryService.getEvents()
-      .then((response) => {
-        this.countries = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    this.$store.dispatch("setCountries");
+  },
+
+  methods: {
+    sortCountry(countries) {},
   },
 
   computed: {
+    countries() {
+      return this.$store.state.countries;
+    },
+
     filtredCountries() {
       if (this.region === "All") {
         return this.countries;
       } else {
-        let p = this.countries.filter((country) => {
-          if (country.region === this.region) {
-            return country;
-          }
+        let sorted = this.countries.filter((country) => {
+          return country.region === this.region;
         });
-        return p;
+        return sorted;
+      }
+    },
+
+    searchedCountries() {
+      if (this.search === "") {
+        return this.filtredCountries;
+      } else {
+        return this.filtredCountries.filter((country) =>
+          country.name.toLowerCase().includes(this.search.toLowerCase())
+        );
       }
     },
   },
