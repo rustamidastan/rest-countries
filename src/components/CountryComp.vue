@@ -37,15 +37,13 @@ export default {
   width: 265px;
   margin: 0 auto;
   border-radius: 5px;
-  background-color: #fff;
+  background-color: var(--primary-bg);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .country-item:hover {
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
-    rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
-    rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+  box-shadow: var(--item-box-shadow);
 }
 
 img {
@@ -62,7 +60,7 @@ img {
   font-size: 18px;
   line-height: 26px;
   font-weight: 800;
-  color: #111517;
+  color: var(--text-color);
   margin-bottom: 16px;
 }
 

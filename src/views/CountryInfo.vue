@@ -51,7 +51,7 @@
               </ul>
             </div>
 
-            <div class="info-border-countries">
+            <div class="info-border-countries" v-if="country.borders">
               <span class="title">Border Countries: </span>
               <div class="border-countries">
                 <BorderCountry
@@ -102,16 +102,17 @@ export default {
 
 .back-lnk {
   background: #ffffff;
-  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.293139);
+  box-shadow: var(--border-country-shadow);
   border-radius: 6px;
   padding: 10px 32px;
   text-decoration: none;
-  color: #111517;
+  color: var(--text-color);
   font-size: 16px;
   line-height: 20px;
   font-weight: 300;
   transition: all 0.3s ease;
   display: inline-block;
+  background-color: var(--primary-bg);
 }
 
 .back-lnk:hover {
@@ -147,7 +148,7 @@ export default {
   line-height: 44px;
   font-weight: 800;
   margin-bottom: 23px;
-  color: #111517;
+  color: var(--text-color);
 }
 
 .infos__list-wrapper {
@@ -164,7 +165,7 @@ export default {
   font-size: 16px;
   line-height: 32px;
   font-weight: 300;
-  color: #111517;
+  color: var(--text-color);
   font-family: "Nunito Sans";
 }
 
@@ -191,5 +192,37 @@ export default {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+}
+
+@media screen and (max-width: 450px) {
+  .back-lnk {
+    margin-bottom: 64px;
+  }
+
+  .infos {
+    flex-direction: column;
+    padding-top: 0;
+    padding-bottom: 60px;
+  }
+
+  .country-flag {
+    width: 320px;
+    height: 230px;
+    margin-bottom: 44px;
+  }
+
+  .main-infos {
+    width: 345px;
+  }
+
+  .infos__list-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 34px;
+  }
+
+  .infos__list-wrapper .infos-list:first-child {
+    margin-bottom: 32px;
+  }
 }
 </style>

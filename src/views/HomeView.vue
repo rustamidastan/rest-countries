@@ -93,7 +93,7 @@ export default {
 
 a {
   text-decoration: none;
-  color: #111517;
+  color: var(--text-color);
 }
 
 .my-form {
@@ -107,8 +107,8 @@ a {
   width: 480px;
   height: 56px;
   padding: 19px 32px;
-  background: #ffffff;
-  box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.0532439);
+  background: var(--primary-bg);
+  box-shadow: 0px 2px 9px var(--box-shadow);
   border-radius: 5px;
 }
 
@@ -119,10 +119,12 @@ a {
   font-size: 14px;
   line-height: 20px;
   width: 350px;
+  background-color: var(--primary-bg);
+  color: var(--text-color);
 }
 
-.input-wrapper input[placeholder] {
-  color: #848484;
+.input-wrapper input::placeholder {
+  color: var(--text-color) !important;
 }
 
 select {
@@ -138,6 +140,9 @@ select {
   line-height: inherit;
   outline: none;
   padding: 18px 24px;
+  border-radius: 5px;
+  color: var(--text-color);
+  background: var(--primary-bg);
 }
 
 select::-ms-expand {
@@ -152,8 +157,8 @@ select::-ms-expand {
   font-size: 14px;
   cursor: pointer;
   line-height: 20px;
-  background: #fff;
-  box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.0532439);
+  background: var(--primary-bg);
+  box-shadow: 0px 2px 9px var(--box-shadow);
   display: grid;
   grid-template-areas: "select";
   align-items: center;
@@ -164,7 +169,7 @@ select::-ms-expand {
   width: 0.8em;
   height: 0.5em;
   margin-right: 14px;
-  background-color: #111517;
+  background-color: var(--text-color);
   clip-path: polygon(100% 0%, 0 0%, 50% 100%);
   justify-self: end;
 }
@@ -188,7 +193,27 @@ option {
   cursor: pointer;
   font-size: 14px;
   line-height: 20px;
-  color: #111517;
   margin-bottom: 8px !important;
+}
+
+@media screen and (max-width: 450px) {
+  .my-form {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .input-wrapper {
+    width: 343px;
+    margin-bottom: 40px;
+  }
+
+  .input-wrapper input {
+    width: auto;
+  }
+
+  .home {
+    grid-template-columns: 1fr;
+    grid-row-gap: 40px;
+  }
 }
 </style>
